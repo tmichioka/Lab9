@@ -1,6 +1,6 @@
 ---
 title: "Lab9"
-author: "Your Name"
+author: "Toko Michioka"
 date: "2024-11-07"
 output: "github_document"
 ---
@@ -13,7 +13,7 @@ library(bruceR)
 library(haven)
 
 
-lab9data<-read_sav("C:/Users/Colin/Documents/lab9data.sav")
+lab9data<-read_sav("/Users/toko/Documents/GitHub/Lab9/lab9data.sav")
 
 
 
@@ -29,8 +29,6 @@ https://www.neellab.ca/uploads/1/2/1/1/121173522/the_fundamental_social_motives_
 #The traditional way is to recode your items first, then use the recoded items to test reliability
 
 lab9data$FSMI3_R <- 8 - lab9data$FSMI3
-lab9data$FSMI57_R <- 8 - lab9data$FSMI57
-lab9data$FSMI58_R <- 8 - lab9data$FSMI58
 
 #If you use the unrecoded items, it will mess up the Cronbach's alpha and lead you to draw wrong conclusion
 
@@ -39,6 +37,7 @@ Alpha(lab9data, "FSMI", c("1", "2", "3_R", "4", "5", "6"))
 #Option 2:
 #If you don't want to recode your variable, you can use the shortcut below
 Alpha(lab9data, "FSMI", 1:6, rev = 3)
+#rev = reverse code
 
 
 ```
@@ -51,17 +50,36 @@ EFA(lab9data, "FSMI", 1:6, rev = 3, method = "pa", plot.scree = TRUE, nfactors =
 ```
 # Now test reliability for the status seeking subscale
 ```{r}
-
+Alpha(lab9data, "FSMI", 31:36, rev = 36)
 ```
 # Q1: What is the Cronbach's alpha of this subscale? Is it a reliable measure of status seeking? Why? 
+The cronbach's alpha for status seeking subscale is .83, which indicates that this is a good measure of status seeking.
 
 # Now run a factor analysis on the Mate Retention (Breakup Concern) subscale
 ```{r}
 
-
+EFA(lab9data, "FSMI", 49:54, method = "pa", plot.scree = TRUE, nfactors = c("parallel"))
 
 ```
 
 # Q2: How many factors can you identify from the results? Based on what? What is the range of the factor loadings? What is item that has the highest factor loading? In conclusion, is this a good measure of break up concern and why?
 
+I identified one factor because there is only one dot before the flattened point, there is only one dot above the eigen value of one, and there is only one dot above the simulation line.
+The range of factor loadings is .823 and .0940.
+The item that has the highest factor loading is Question 51: I worry that my romantic/sexual partner might leave me. 
+In conclusion, this is a good measure because all the factor loadings are above .6.
+
 # Q3: Pick another subscale from FSMI. Test reliability and factor analysis. Answer all the questions  above. 
+I choose kin care (family). The cronbach's alpha for kin care (family) subscale is .895, which indicates that this is a good measure of kin care (family). I identified one factor because there is only one dot before the flattened point, there is only one dot above the eigen value of one, and there is only one dot above the simulation line.
+The range of factor loadings is .725 and .822.
+The item that has the highest factor loading is Question 59: Being close to my family members is extremely important to me. 
+In conclusion, this is a good measure because all the factor loadings are above .6.
+
+```{r}
+Alpha(lab9data, "FSMI", 55:60, rev = 56:58)
+
+```
+```{r}
+EFA(lab9data, "FSMI", 55:60,  rev = 56:58, method = "pa", plot.scree = TRUE, nfactors = c("parallel"))
+```
+
